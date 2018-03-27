@@ -1,6 +1,5 @@
 __author__ = 'song'
-
-
+import  sys
 #提前定义属性
 class Student(object):
     def __init__(self,name,score):
@@ -85,6 +84,113 @@ print(isinstance(123,int))
 
 #获得对象的所有属性和方法 dir()
 print(dir(dog))
+
+
+###############################################################
+#类属性
+class student_class_inheritance(object):
+    name = 'student'
+
+s1=student_class_inheritance()
+print(s1.name, 'line::',sys._getframe().f_lineno)
+s2=student_class_inheritance()
+print(s2.name,'line::',sys._getframe().f_lineno)
+
+###############################################################
+#动态绑定类方法
+class student_dynamic_fun(object):
+    def __init__(self,name):
+        self.name=name
+
+#先定义实例s1 s2 再绑定类方法，实例也可以拿到方法
+s1=student_dynamic_fun("t1")
+s2=student_dynamic_fun('t2')
+
+def set_student_name(self,name):
+    self.name=name
+student_dynamic_fun.set_name = set_student_name
+
+s1.set_name('s1')
+s2.set_name("s2")
+print(s1.name,s2.name)
+
+###############################################################
+#限制类属性
+class student_limit_sttribute(object):
+    __slots__ = ('name','age')
+
+s1=student_limit_sttribute()
+#添加score属性会报错
+#s1.score=12
+
+
+###############################################################
+#装饰器 @property
+
+#检查设置值
+class student_property(object):
+    @property
+    def score(self):
+        return self.__score
+    @score.setter
+    def score(self,value):
+        if not isinstance(value,int):
+            raise ValueError('score is not integer')
+        if(value > 100 or value < 0):
+            raise ValueError('must butween 0-100')
+        self.score=value
+s3=student_property()
+
+#给score赋值1000就会报错
+#s3.score=1000
+
+#设置只读属性,不定义setter方法就会是只读（？？或者私有属性只设置get方法？？）
+class student_sttribute_only_read(object):
+    @property
+    def sore(self):
+        return self.sore
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
