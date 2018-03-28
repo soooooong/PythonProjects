@@ -144,11 +144,17 @@ s3=student_property()
 #给score赋值1000就会报错
 #s3.score=1000
 
-#设置只读属性,不定义setter方法就会是只读（？？或者私有属性只设置get方法？？）
+#设置只读属性,不定义setter方法就会是只读
 class student_sttribute_only_read(object):
     @property
-    def sore(self):
-        return self.sore
+    def birth(self):
+        return self.__name
+    @birth.setter
+    def
+
+
+s3=student_sttribute_only_read()
+s3.birth=30
 
 
 
