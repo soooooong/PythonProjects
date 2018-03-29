@@ -97,6 +97,7 @@ s2=student_class_inheritance()
 print(s2.name,'line::',sys._getframe().f_lineno)
 
 ###############################################################
+###############################################################
 #动态绑定类方法
 class student_dynamic_fun(object):
     def __init__(self,name):
@@ -125,7 +126,7 @@ s1=student_limit_sttribute()
 
 
 ###############################################################
-#装饰器 @property
+#装饰器应用 @property
 
 #检查设置值
 class student_property(object):
@@ -149,12 +150,12 @@ class student_sttribute_only_read(object):
     @property
     def birth(self):
         return self.__name
-    @birth.setter
-    def
+#    @birth.setter
+#    def
 
 
-s3=student_sttribute_only_read()
-s3.birth=30
+#s3=student_sttribute_only_read()
+#s3.birth=30
 
 
 

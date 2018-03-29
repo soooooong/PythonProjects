@@ -4,13 +4,13 @@ def printtest():
     print(__name__)
 print(__name__)
 print(__file__)
-
+###############################################################
 #不能给字符串某个位置单独赋值，拼接或重新赋值
 st="Hello world"
 st = st[:6]+"Python"
 print(st)
 
-
+###############################################################
 #字符串格式化
 charA =65
 print("ascii 码65代表： %c" % charA)
@@ -22,14 +22,15 @@ print("转换成十进制分别为 %u和 %u" % (num1,num2))
 num=234.567890
 print("%.2f" % num)
 
+###############################################################
 #列表操作
-list = [123,'abc',4.56,['inner','list'],7-9j]
+list1 = [123,'abc',4.56,['inner','list1'],7-9j]
 
-print(list[0])
-print(list[1:4])
-print(list[:3])
-print(list[3][1])
-
+print(list1[0])
+print(list1[1:4])
+print(list1[:3])
+print(list1[3][1])
+###############################################################
 #字典
 ab = { 'sw':'roop.com',
        'rry':'wall.com',
@@ -44,18 +45,25 @@ print(ab)
 ab['add_1']='add_val'
 if 'add_1' in ab:
     print(ab['add_1'])
-
+###############################################################
 #for in
 fruits = ['banana', 'apple',  'mango']
 for index in range(len(fruits)):
     print(fruits[index],'line::',sys._getframe().f_lineno)
-
+###############################################################
 #列表生成式
 l=[x * x for x in range(1, 11)]
 print(l)
 
+def f(x):
+    return x*x
+#append()给列表里添加元素
+L=[]
+for n in [1,2,3,4,5,6,7,8,9]:
+    L.append(f(n))
+print('line:',sys._getframe().f_lineno,L)
 
-
+###############################################################
 #生成器
 #斐波那契数列
 def fib(max):
@@ -76,3 +84,50 @@ while True:
     except StopIteration as e:
         print('Generator return value:', e.value)
         break
+
+
+###############################################################
+#生成器
+#生成器注意点：生成器只能遍历一遍
+def get_province_population(filename):
+    with open(filename) as f:
+        for line in f:
+            yield int(line)
+gen=get_province_population('population.txt')
+#while 遍历过一遍， sum遍历时就没有了
+#1
+while True:
+    try:
+        x = next(gen)
+        print('g:', x)
+    except StopIteration as e:
+        print('Generator return value:', e.value)
+        break
+#2 屏蔽掉#1，以下sum结果会正确
+all_populaton = sum(gen)
+print(all_populaton)
+
+#生成器重新赋值可以再次使用
+gen=get_province_population('population.txt')
+all_populaton = sum(gen)
+print(all_populaton)
+
+###############################################################
+#map() 使用list函数将iterator 转化为list
+def square(x):
+    return x ** 2 *x #三次方
+L=[1,2,3,4,5]
+gen=map(square,L )
+from collections import Iterable
+print(isinstance(gen, Iterable))
+print(list(gen))
+
+
+#reduce()
+from functools import reduce
+def fn(x, y):
+    return x + y
+
+print(reduce(fn, [1, 3, 5, 7, 9]))
+
+print(sys.version)
