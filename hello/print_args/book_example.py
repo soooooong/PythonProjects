@@ -218,7 +218,9 @@ L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
 for i in L:
     print(i[0])
 
-#一个一个获取名字 未完
-#def get_onename(i)
-#    return i[0]
-
+#一个一个获取名字 按名字排序
+def get_onename(i):
+    return i[0]
+#for i in L:
+#    print(get_onename(i))
+print(sorted(L,key=get_onename))
