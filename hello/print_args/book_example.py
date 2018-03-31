@@ -1,5 +1,9 @@
 __author__ = 'song'
 import  sys
+from collections import Iterable
+from collections import Iterator
+from functools import reduce
+
 def printtest():
     print(__name__)
 print(__name__)
@@ -87,8 +91,7 @@ while True:
 
 
 ###############################################################
-#生成器
-#生成器注意点：生成器只能遍历一遍
+#生成器注意点：生成器只能迭代一遍
 def get_province_population(filename):
     with open(filename) as f:
         for line in f:
@@ -103,7 +106,7 @@ while True:
     except StopIteration as e:
         print('Generator return value:', e.value)
         break
-#2 屏蔽掉#1，以下sum结果会正确
+#2 屏蔽掉#1，以下sum结果会正确，因为#1已经迭代过一遍
 all_populaton = sum(gen)
 print(all_populaton)
 
@@ -113,21 +116,109 @@ all_populaton = sum(gen)
 print(all_populaton)
 
 ###############################################################
+#map() and reduce()
 #map() 使用list函数将iterator 转化为list
 def square(x):
     return x ** 2 *x #三次方
 L=[1,2,3,4,5]
 gen=map(square,L )
-from collections import Iterable
-print(isinstance(gen, Iterable))
+print('line:',sys._getframe().f_lineno, '  ',isinstance(gen, Iterable),isinstance(gen, Iterator))
 print(list(gen))
 
-
 #reduce()
-from functools import reduce
 def fn(x, y):
     return x + y
 
 print(reduce(fn, [1, 3, 5, 7, 9]))
 
+#pyhton版本
 print(sys.version)
+
+#结合map() and reduce()
+#map()返回一个itrator，再交给reduce处理
+#1
+def str2num(s):
+    bas={'1':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'0':0}
+    return bas[s]
+str=map(str2num,'14590')
+#2
+def fn(x,y):
+    return 10 * x+y
+num3=reduce(fn,str)
+print(num3)
+
+###############################################################
+#闭包  厉害
+#例：实现1
+#定义两条线，输入x输出y
+def line_conf(a,b):
+    def line(x):
+        return a*x+b
+    return  line
+line1=line_conf(2,3)
+line2=line_conf(5,6)
+
+y1=line1(100)
+y2=line2(100)
+print('method1:')
+print('line1: x1= 100  y1=', y1)
+print('line2  x2= 100  y2=' ,y2)
+
+#实现2
+print('method2:')
+def line_conf(a,b):
+    return  lambda x:a*x+b
+line1=line_conf(2,3)
+line2=line_conf(5,6)
+
+y1=line1(100)
+y2=line2(100)
+print('line1: x1= 100  y1=', y1)
+print('line2  x2= 100  y2=' ,y2)
+
+###############################################################
+#filter
+#删除返回false项
+#取偶数
+def is_even(n):
+#    print (not(n%2==1))
+    return  (not n%2)
+print(list(filter(is_even, [1, 2, 4, 5, 6, 9, 10, 15])))
+
+#应用
+#取素数
+def main():
+    for n in primes():
+        if n < 10:
+            print(n)
+        else:
+            break
+
+def _odd_iter():
+    n = 1
+    while True:
+        n = n + 2
+        yield n
+
+def _not_divisible(n):
+    return lambda x: x % n > 0
+
+def primes():
+    yield 2
+    it = _odd_iter()
+    while True:
+        n = next(it)
+        yield n
+        it = filter(_not_divisible(n), it)
+main()
+
+###############################################################
+#sorted()
+L = [('Bob', 75), ('Adam', 92), ('Bart', 66), ('Lisa', 88)]
+for i in L:
+    print(i[0])
+
+#一个一个获取名字 未完
+#def get_onename(i)
+#    return i[0]
+
