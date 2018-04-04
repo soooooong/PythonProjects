@@ -224,3 +224,62 @@ def get_onename(i):
 #for i in L:
 #    print(get_onename(i))
 print(sorted(L,key=get_onename))
+
+###############################################################
+#带参数的装饰器
+import logging
+F = True          #step 1 装饰器的开关变量
+def outer(flag):  #step 2
+    def wrapper(func): #step 4
+        def inner(*args,**kwargs): #stpe 6
+            if flag:               #step 9
+                print('before')   #step 10
+                ret = func(*args,**kwargs)  #step 11  执行原函数
+                print('fun.__name %s'% func.__name__)
+                print('after')             #step13
+            else:
+                ret = func(*args,**kwargs)
+                print('fun.__name %s'% func.__name__)
+            return ret                     #step 14
+        return inner    #step 7
+    return wrapper     #step 5
+
+@outer(F)   #先执行step 3 ：outer(True)这个函数，然后step 6：@wrapper   #此处把开关参数传递给装饰器函数
+def hahaha():
+    print('hahaha')  #step 12
+    logging.warn('warning')     #warning 执行位置不确定
+hahaha()    # step 8    相当于inner()
+
+
+#类装饰器
+class Foo(object):
+    def __init__(self,func):
+        self.__func=func
+    def __call__(self, *args, **kwargs):
+        print('class decorator runing')
+        self.__func()
+        print('class decorator enging')
+@Foo
+def bar():
+    print("bar")
+bar()
+
+#需要使用@functools.wraps
+#使用@functools.wraps传入原函数的元信息
+import functools
+def log(text):
+    def decorator(func):
+        @functools.wraps(func)
+        def wrapper(*args, **kw):  #注意参数
+            print('%s %s():' % (text, func.__name__))
+            print(" %s step 3" % text)
+            return func(*args, **kw)
+        print(" %s step 2" % text)
+        return wrapper
+    print(" %s step 1" % text)
+    return decorator
+
+@log('execute')
+def now():
+    print('2018-4-3')
+now()
