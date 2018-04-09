@@ -99,6 +99,7 @@ print(s2.name,'line::',sys._getframe().f_lineno)
 ###############################################################
 ###############################################################
 #动态绑定类方法
+#例1
 class student_dynamic_fun(object):
     def __init__(self,name):
         self.name=name
@@ -115,6 +116,21 @@ s1.set_name('s1')
 s2.set_name("s2")
 print(s1.name,s2.name)
 
+#例2
+__author__ = 'song'
+class student_dynamic_fun1(object):
+    def __init__(self,name):
+        self.name=name
+    pass
+
+def say_hello(self):
+    print('hello')
+
+s1=student_dynamic_fun1('s1')
+print(s1.name)
+
+student_dynamic_fun1.say_hello=say_hello
+s1.say_hello()
 ###############################################################
 #限制类属性
 class student_limit_sttribute(object):
@@ -144,7 +160,6 @@ s3=student_property()
 
 #给score赋值1000就会报错
 #s3.score=1000
-
 #设置只读属性,不定义setter方法就会是只读
 class student_sttribute_only_read(object):
     @property
@@ -157,12 +172,47 @@ class student_sttribute_only_read(object):
 #s3=student_sttribute_only_read()
 #s3.birth=30
 
+###############################################################
+#__slots __
+#子类如果也定义__slots__可以使用父类__slots__定义的属性
+class Student_slots_father(object):
+    __slots__=("name")
+class Student_slots_son(Student_slots_father):
+    __slots__=("age")
+
+Student1=Student_slots_father()
+Student2=Student_slots_son()
+Student1.name='s1_184'
+print(Student1.name)
+#Student1.age=12  #__slots__没有设置age属性，设置就会报错
+Student2.name='s2_187'
+print(Student2.name)
+Student2.age=12
+print(Student2.age)
 
 
+###############################################################
+#__getattr__实例的类中没有调用的属性或方法时，如有实现，调用__getattr__方法
+class adaptee(object):
+    def foo(self):
+        print('foo in adaptee')
+    def bar(self):
+        print('bar in adaptee')
 
+class adapter(object):
+    def __init__(self):
+        self.adaptee = adaptee()
 
+    def foo(self):
+        print('foo in adapter')
+        self.adaptee.foo()
 
+    def __getattr__(self, name):
+        return getattr(self.adaptee, name)
 
+a = adapter()
+a.foo()
+a.bar()
 
 
 
