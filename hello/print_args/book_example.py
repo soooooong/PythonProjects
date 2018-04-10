@@ -90,6 +90,20 @@ while True:
         break
 
 
+
+###############################################################
+#with  open as
+#with open('abc.txt','r') as f:
+#balabalabala
+#等价于
+#try:
+#f = open('abc.txt','r')
+#except:
+#pass
+#else:
+#balabalabala
+#finally:
+#f.close()
 ###############################################################
 #生成器注意点：生成器只能迭代一遍
 def get_province_population(filename):

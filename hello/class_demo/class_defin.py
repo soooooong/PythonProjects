@@ -192,7 +192,7 @@ print(Student2.age)
 
 
 ###############################################################
-#__getattr__实例的类中没有调用的属性或方法时，如有实现，调用__getattr__方法
+#__getattr__实例的类中没有调用的属性或方法时，如有实现__getattr__，则调用__getattr__方法
 class adaptee(object):
     def foo(self):
         print('foo in adaptee')
@@ -213,14 +213,33 @@ class adapter(object):
 a = adapter()
 a.foo()
 a.bar()
+###############################################################
+#错误处理
+try:
+    print('try...')
+    r = 10 / int('2')
+    print('result:', r)
+except ValueError as e:
+    print('ValueError:', e)
+except ZeroDivisionError as e:
+    print('ZeroDivisionError:', e)
+else:
+    print('no error!')
+finally:
+    print('finally...')
+print('END')
+###############################################################
+#类实例化为json
+import json
+class Student(object):
+    def __init__(self, name, age, score):
+        self.name = name
+        self.age = age
+        self.score = score
 
+s = Student('Bob', 20, 88)
 
-
-
-
-
-
-
+print(json.dumps(s, default=lambda obj: obj.__dict__))
 
 
 
