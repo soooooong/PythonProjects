@@ -49,10 +49,26 @@ class  NewProcess(Process):  #继承Process类创建一个新类
         self.num=num
         super().__init__()
     def run(self):  #重写Process类中的run方法
-        for i in range(5):
+        for i in range(3):
             print('我是进程%d,我的进程ID是%d'%(self.num,os.getpid()))
             time.sleep(1)
 if __name__ == '__main__':
     for i in range(2):
         p=NewProcess(i)
         p.start()
+
+#multiprocessing.Pool 进程池
+import time
+from  multiprocessing import Pool
+def C():
+    for i in range(3):
+        print(i)
+        time.sleep(1)
+if __name__=='__main__':
+    pool=Pool(2) #定义进程池大小
+    for i in range(2):
+        pool.apply_async(C)#使用非阻塞方式调用func，阻塞是apply()
+
+    pool.close()    #关闭pool.不再接受其他新的任务
+    pool.join()     #主进程阻塞，等待子进程的退出，调用join()之前必须先调用close()，调用close()之后就不能继续添加新的Process了
+                    #Pool.terminate()：一旦运行到此步，不管任务是否完成，立即终止
