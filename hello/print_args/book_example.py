@@ -280,6 +280,7 @@ bar()
 
 #需要使用@functools.wraps
 #使用@functools.wraps传入原函数的元信息
+print('__________________________________________________')
 import functools
 def log(text):
     def decorator(func):
