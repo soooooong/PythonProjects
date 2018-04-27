@@ -1,7 +1,7 @@
 __author__ = 'song'
 ###############################################################
 #tuple原本表示不变的集合，namedtuple,用来创建一个自定义的tuple对象，规定了tuple元素的个数，并可以用属性而不是索引来引用tuple的某个元素
-#新对象它具备tuple的不变性，又可以根据属性来引用
+#新对象具备tuple的不变性，又可以根据属性来引用
 
 from collections import  namedtuple
 point =namedtuple('point',['x','y'])#定义为点
@@ -65,22 +65,7 @@ print(c)
 #struct 解决bytes和其他二进制数据类型的转换
 #b'str'可以表示字节  例：b'\x00\x9c@c'
 
-#@contextmanager
 
-@contextmanager
-def tag(name):
-    print("<%s>" % name)
-    yield
-    print("</%s>" % name)
-
-with tag("h1"):
-    print("hello")
-    print("world")
-#结果，先执行函数tag yield之前内容，再执行with中，再执行yield之后
-#<h1>
-#hello
-#world
-#</h1>
 
 
 
