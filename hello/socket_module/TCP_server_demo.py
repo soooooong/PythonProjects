@@ -26,12 +26,14 @@ def tcplink(sock,addr):
     sock.send(b'welcome')
     while True:
         data = sock.recv(1024)
-#        time.sleep(1)
+        print(data)
+        time.sleep(1)
         if not data or data.decode('utf-8') == 'exit':
             break
         sock.send(('Hello, %s!' % data.decode('utf-8')).encode('utf-8'))
+    print('close')
     sock.close()
-    print('connection from  cleased')
+    print('Connection from %s:%s closed.' % addr)
 
 
 #务器程序通过一个永久循环来接受来自客户端的连接，accept()会等待并返回一个客户端的连接
