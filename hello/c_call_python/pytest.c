@@ -24,6 +24,7 @@ void test()
 然后获取模块中的函数（PyObject_GetAttrString）
 对c传入python 的参数做类型转换（Py_BuildValue("(s)","hello_python")）
 最后直接调用函数并传递参数（PyEval_CallObject）
+-
 */
 void test1()
 {
