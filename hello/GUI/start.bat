@@ -1,0 +1,1 @@
+start py -3 "D:\PythonProjects\hello\GUI\hello world.py"
