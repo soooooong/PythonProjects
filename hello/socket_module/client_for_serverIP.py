@@ -23,7 +23,7 @@ def udpListen():
     s=socket.socket(socket.AF_INET,socket.SOCK_STREAM)
     s.connect(connct_add) 
 
-    for data in [b's',b'o',b'n',b'g',b'z',b'h',b'e',b'exit']:
+    for data in [b'connct_add1',b'connct_add2',b'connct_add3',b'connct_add4',b'connct_add5',b'exit']:
         s.send(data)
         print(s.recv(1024).decode('utf-8'))
     s.send(b'exit')

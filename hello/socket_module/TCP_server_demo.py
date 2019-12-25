@@ -1,6 +1,10 @@
 __author__ = 'song'
 import  threading
 import  socket,time
+#用import语句导入模块，就在当前的名称空间(namespace)建立了一个到该模块的引用.这种引用必须使用全称，也就是说，当使用在被导入模块中定义的函数时，必须包含模块的名字。所以不能只使用 funcname，而应该使用 modname.funcname
+#from clientclass import  Client 
+
+
 # TCP和UDP都是全双工,在发送信息的同时,可以接收信息
 #一个Socket依赖4项：服务器地址、服务器端口、客户端地址、客户端端口来唯一确定一个Socket
 
@@ -49,10 +53,11 @@ s.bind(('0.0.0.0', 9999))
 s.listen(10)#传入的参数指定等待连接的最大数量
 print('waiting for connection ...')
 #连接建立后，服务器首先发一条欢迎消息，
-# 然后等待客户端数据，并加上Hello再发送给客户端。
-# 如果客户端发送了exit字符串，就直接关闭连接
+#然后等待客户端数据，并加上Hello再发送给客户端。
+#如果客户端发送了exit字符串，就直接关闭连接
 def tcplink(sock,addr):
     print('accept new connection from %s:%s' % addr)
+    #Client中有__init__方法，实例时传入的参数得与__init__方法的参数匹配，self不需要传    
     sock.send(b'welcome')
     while True:
         data = sock.recv(1024)
@@ -69,10 +74,6 @@ def tcplink(sock,addr):
             sock.send(('server recive: %s!' % data.decode('utf-8')).encode('utf-8'))
 
     
-
-
-
-
 #服务器还需要同时响应多个客户端的请求，
 #所以，每个连接都需要一个新的进程或者新的线程来处理，否则，服务器一次就只能服务一个客户端了
 #务器程序通过一个永久循环来接受来自客户端的连接，accept()会等待并返回一个客户端的连接
@@ -80,8 +81,9 @@ while True:
     #接受一个新链接
     sock,addr=s.accept()
     conn_pool.append(sock)
+    print('-----------accepted...-----------------')
     print(sock,addr)
-    print('accepted...')
+    print('-----------accepted...-----------------')
     #创建新线程处理TCP链接
     t=threading.Thread(target=tcplink,args=(sock,addr))
     t.start()
