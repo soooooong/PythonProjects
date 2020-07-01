@@ -5,9 +5,9 @@ import argparse #是一个用来解析命令行参数的 Python 库
 # 首先，构建命令行输入参数处理 ArgumentParser 实例
 parse = argparse.ArgumentParser()
 parse.add_argument('file') #输入文件
-parse.add_argument(' -o','--output')
+parse.add_argument('--output')
 parse.add_argument('--width',type = int ,default= 80) # 输出字符画宽
-parse.add_argument('--heght',type= int,default= 80)# 画高
+parse.add_argument('--height',type= int,default= 80)# 画高
 
 
 #解析并获取参数
